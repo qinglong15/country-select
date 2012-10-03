@@ -11,7 +11,7 @@ module ActionView
       # that they will be listed above the rest of the (long) list.
       #
       # NOTE: Only the option tags are returned, you have to wrap this call in a regular HTML select tag.
-      def country_options_for_select(selected = nil, priority_countries = nil)
+      def country_options_for_select(selected = nil, priority_countries = nil, display = nil)
         country_options = ""
 
         if priority_countries
@@ -28,8 +28,12 @@ module ActionView
         end
 
         country_options = country_options.html_safe if country_options.respond_to?(:html_safe)
-
-        return country_options + options_for_select(COUNTRIES, selected)
+        if display == "ioc"
+          options = IOC_COUNTRIES
+        else
+          options = COUNTRIES
+        end
+        return country_options + options_for_select(options, selected)
       end
 
       # All the countries included in the country_options output.
@@ -72,6 +76,46 @@ module ActionView
         "United States", "United States Minor Outlying Islands", "Uruguay", "Uzbekistan", "Vanuatu",
 				"Venezuela, Bolivarian Republic of", "Viet Nam", "Virgin Islands, British", "Virgin Islands, U.S.",
 				"Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe"] unless const_defined?("COUNTRIES")
+        
+      # All the countries included in the ioc country_options output
+      IOC_COUNTRIES = [["Afghanistan", "AFG"], ["Albania", "ALB"], ["Algeria", "ALG"], ["American Samoa", "ASA"], ["Andorra", "AND"], ["Angola", "ANG"],
+        ["Antigua And Barbuda", "ANT"], ["Argentina", "ARG"], ["Armenia", "ARM"], ["Aruba", "ARU"], ["Australia", "AUS"], ["Austria", "AUT"], ["Azerbaijan", "AZE"],
+        ["Bahamas", "BAH"], ["Bahrain", "BRN"], ["Bangladesh", "BAN"], ["Barbados", "BAR"], ["Belarus", "BLR"], ["Belgium", "BEL"], ["Belize", "BIZ"], ["Benin", "BEN"],
+        ["Bermuda", "BER"], ["Bhutan", "BHU"], ["Bolivia, Plurinational State of", "BOL"], ["Bosnia and Herzegovina", "BIH"], ["Botswana", "BOT"], ["Brazil", "BRA"],
+        ["Brunei Darussalam", "BRU"], ["Bulgaria", "BUL"], ["Burkina Faso", "BUR"], ["Burundi", "BDI"],
+        ["Cambodia", "CAM"], ["Cameroon", "CMR"], ["Canada", "CAN"], ["Cape Verde", "CPV"], ["Cayman Islands", "CAY"], ["Central African Republic", "CAF"], ["Chad", "CHA"], ["Chile", "CHI"], ["China", "CHN"],
+        ["Colombia", "COL"], ["Comoros", "COM"], ["Congo", "COD"], ["Congo, the Democratic Republic of the", "CGO"], ["Cook Islands", "COK"], ["Costa Rica", "CRC"],
+        ["Cote d'Ivoire", "CIV"], ["Croatia", "CRO"], ["Cuba", "CUB"], ["Cyprus", "CYP"], ["Czech Republic", "CZE"],
+        ["Denmark", "DEN"], ["Djibouti", "DJI"], ["Dominica", "DMA"], ["Dominican Republic", "DOM"],
+        ["Ecuador", "ECU"], ["Egypt", "EGY"], ["El Salvador", "ESA"], ["Equatorial Guinea", "GEQ"], ["Eritrea", "ERI"], ["Estonia", "EST"], ["Ethiopia", "ETH"],
+        ["Faroe Islands", "FRO"], ["Fiji", "FIJ"], ["Finland", "FIN"], ["France", "FRA"],
+        ["Gabon", "GAB"], ["Gambia", "GAM"], ["Georgia", "GEO"], ["Germany", "GER"], ["Ghana", "GHA"], ["Greece", "GRE"], ["Grenada", "GRN"],
+        ["Guam", "GUM"], ["Guatemala", "GUA"], ["Guinea", "GUI"], ["Guinea-Bissau", "GBS"], ["Guyana", "GUY"],
+        ["Haiti", "HAI"], ["Honduras", "HON"], ["Hong Kong", "HKG"], ["Hungary", "HUN"],
+        ["Iceland", "ISL"], ["India", "IND"], ["Indonesia", "INA"], ["Iran, Islamic Republic of", "IRI"], ["Iraq", "IRQ"], ["Ireland", "IRL"], ["Israel", "ISR"], ["Italy", "ITA"],
+        ["Jamaica", "JAM"], ["Japan", "JPN"], ["Jordan", "JOR"],
+        ["Kazakhstan", "KAZ"], ["Kenya", "KEN"], ["Kiribati", "KIR"], ["Korea, Democratic People's Republic of", "PRK"], ["Korea, Republic of", "KOR"], ["Kuwait", "KUW"], ["Kyrgyzstan", "KGZ"],
+        ["Lao People's Democratic Republic", "LAO"], ["Latvia", "LAT"], ["Lebanon", "LIB"], ["Lesotho", "LES"], ["Liberia", "LBR"], ["Libya", "LBA"],
+        ["Liechtenstein", "LIE"], ["Lithuania", "LTU"], ["Luxembourg", "LUX"], ["Macao", "MAC"],
+        ["Macedonia, The Former Yugoslav Republic Of", "MKD"], ["Madagascar", "MAD"], ["Malawi", "MAW"], ["Malaysia", "MAS"], ["Maldives", "MDV"], ["Mali", "MLI"], ["Malta", "MLT"], 
+        ["Marshall Islands", "MHL"], ["Mauritania", "MTN"], ["Mauritius", "MRI"], ["Mexico", "MEX"], ["Micronesia, Federated States of", "FSM"],
+        ["Moldova, Republic of", "MDA"], ["Monaco", "MON"], ["Mongolia", "MGL"], ["Montenegro", "MNE"], ["Morocco", "MAR"], ["Mozambique", "MOZ"], ["Myanmar", "MYA"],
+        ["Namibia", "NAM"], ["Nauru", "NRU"], ["Nepal", "NEP"], ["Netherlands", "NED"], ["New Zealand", "NZL"], ["Nicaragua", "NCA"], ["Niger", "NIG"], ["Nigeria", "NGR"], ["Norway", "NOR"],
+        ["Oman", "OMA"],
+        ["Pakistan", "PAK"], ["Palau", "PLW"], ["Palestinian Territory, Occupied", "PLE"], ["Panama", "PAN"], ["Papua New Guinea", "PNG"], ["Paraguay", "PAR"], ["Peru", "PER"], ["Philippines", "PHI"],
+        ["Poland", "POL"], ["Portugal", "POR"], ["Puerto Rico", "PUR"],
+        ["Qatar", "QAT"],
+        ["Romania", "ROU"], ["Russian Federation", "RUS"], ["Rwanda", "RWA"],
+        ["Saint Kitts and Nevis", "SKN"], ["Saint Lucia", "LCA"], ["Saint Vincent and the Grenadines", "VIN"], ["Samoa", "SAM"], ["San Marino", "SMR"], ["Sao Tome and Principe", "STP"],
+        ["Saudi Arabia", "KSA"], ["Senegal", "SEN"], ["Serbia", "SRB"], ["Seychelles", "SEY"], ["Sierra Leone", "SLE"], ["Singapore", "SIN"], ["Slovakia", "SVK"], ["Slovenia", "SLO"],
+        ["Solomon Islands", "SOL"], ["Somalia", "SOM"], ["South Africa", "RSA"], ["Spain", "ESP"], ["Sri Lanka", "SRI"], ["Sudan", "SUD"], ["Suriname", "SUR"], ["Swaziland", "SWZ"],
+        ["Sweden", "SWE"], ["Switzerland", "SUI"], ["Syrian Arab Republic", "SYR"],
+        ["Tajikistan", "TJK"], ["Tanzania, United Republic of", "TAN"], ["Thailand", "THA"], ["Timor-Leste", "TLS"], ["Togo", "TOG"], ["Tonga", "TGA"], ["Trinidad and Tobago", "TRI"],
+        ["Tunisia", "TUN"], ["Turkey", "TUR"], ["Turkmenistan", "TKM"], ["Tuvalu", "TUV"],
+        ["Uganda", "UGA"], ["Ukraine", "UKR"], ["United Arab Emirates", "UAE"], ["United Kingdom", "GBR"], ["United States", "USA"], ["Uruguay", "URU"], ["Uzbekistan", "UZB"],
+        ["Vanuatu", "VAN"], ["Venezuela, Bolivarian Republic of", "VEN"], ["Viet Nam", "VIE"], ["Virgin Islands, British", "IVB"], ["Virgin Islands, U.S.", "ISV"],
+        ["Yemen", "YEM"],
+        ["Zambia", "ZAM"], ["Zimbabwe", "ZIM"]] unless const_defined?("IOC_COUNTRIES")
     end
 
     class InstanceTag
@@ -81,7 +125,7 @@ module ActionView
         value = value(object)
         content_tag("select",
           add_options(
-            country_options_for_select(value, priority_countries),
+            country_options_for_select(value, priority_countries, options[:display]),
             options, value
           ), html_options
         )
