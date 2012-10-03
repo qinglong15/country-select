@@ -13,9 +13,15 @@ module ActionView
       # NOTE: Only the option tags are returned, you have to wrap this call in a regular HTML select tag.
       def country_options_for_select(selected = nil, priority_countries = nil, display = nil)
         country_options = ""
-
+        
+        if display == "ioc"
+          countries = IOC_COUNTRIES
+        else
+          countries = COUNTRIES
+        end
+        
         if priority_countries
-          if (unlisted = priority_countries - COUNTRIES).any?
+          if (unlisted = priority_countries - countries).any?
             raise RuntimeError.new("Supplied priority countries are not in the main list: #{unlisted}")
           end
           country_options += options_for_select(priority_countries, selected)
@@ -28,12 +34,8 @@ module ActionView
         end
 
         country_options = country_options.html_safe if country_options.respond_to?(:html_safe)
-        if display == "ioc"
-          options = IOC_COUNTRIES
-        else
-          options = COUNTRIES
-        end
-        return country_options + options_for_select(options, selected)
+        
+        return country_options + options_for_select(countries, selected)
       end
 
       # All the countries included in the country_options output.
