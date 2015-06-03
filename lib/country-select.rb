@@ -204,7 +204,7 @@ module ActionView
         "Oman",
         "Pakistan",
         "Palau",
-        "Palestinian Territory, Occupied",
+        "Palestine, State of",
         "Panama",
         "Papua New Guinea",
         "Paraguay",
