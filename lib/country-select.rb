@@ -306,8 +306,8 @@ module ActionView
       end
     end
 
-    # For Rails 4.x
-    if Rails.version.starts_with?("4")
+    # For Rails 4.x / 5.x
+    if Rails.version.to_i >= 4
       module Tags
         class CountrySelect < Base
           include CountrySelectTag
